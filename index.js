@@ -28,144 +28,75 @@ function result(player, comp) {
   if (player == "gunting") return comp == "batu" ? "COM WIN" : "PLAYER 1 WIN";
 }
 
-const infinity = () => {
-  let ImgComp = document.querySelector(".com .batu");
-  const itemComp = ["batu", "kertas", "gunting"];
-  let i = 0;
-  const waktuMulai = new Date().getTime();
-  setInterval(function () {
-    if (new Date().getTime() - waktuMulai > 1000) {
-      clearInterval;
-      return;
-    }
-    ImgComp.setAttribute("src", `assets/${itemComp[i++]}.png`);
-    if (i == itemComp.length) {
-      return (i = 0);
-    }
-  }, 100);
-};
-
-const firstPick = document.querySelector(".item .batu");
-firstPick.addEventListener("click", () => {
-  function firstGame() {
-    const player = firstPick.className;
-    const comp = randomNum();
-    const hasil = result(player, comp);
-    console.log(`Item yang di pilih Player : ${player}`);
-    infinity();
-
-    setTimeout(function () {
-      const imgComp = document.querySelector(".com .batu");
-      imgComp.setAttribute("src", `assets/${comp}.png`);
-      const referee = document.querySelector(".referee");
-      const hasilAkhir = document.createElement("p");
-      hasilAkhir.classList.add("results");
-      hasilAkhir.innerHTML = hasil;
-      referee.append(hasilAkhir);
-
-      draw();
-      logMatch();
-    }, 1000);
+class Games {
+  constructor() {
+    this.batu = document.querySelector(".item .batu");
+    this.gunting = document.querySelector(".item .gunting");
+    this.kertas = document.querySelector(".item .kertas");
   }
-  firstGame();
-});
 
-const secondInfinity = () => {
-  let ImgComp = document.querySelector(".com .kertas");
-  const itemComp = ["batu", "kertas", "gunting"];
-  let i = 0;
-  const waktuMulai = new Date().getTime();
-  setInterval(function () {
-    if (new Date().getTime() - waktuMulai > 1000) {
-      clearInterval;
-      return;
+  draw() {
+    const draw = document.querySelectorAll(".results");
+    let index = draw.length - 1;
+    if (draw[index].textContent === "DRAW") {
+      draw[index].classList.add("draw");
     }
-    ImgComp.setAttribute("src", `assets/${itemComp[i++]}.png`);
-    if (i == itemComp.length) {
-      return (i = 0);
-    }
-  }, 100);
-};
-
-const secondPick = document.querySelector(".item .kertas");
-secondPick.addEventListener("click", () => {
-  function secondGame() {
-    const player = secondPick.className;
-    const comp = randomNum();
-    const hasil = result(player, comp);
-    console.log(`Item yang di pilih Player : ${player}`);
-
-    secondInfinity();
-
-    setTimeout(function () {
-      const imgComp = document.querySelector(".com .kertas");
-      imgComp.setAttribute("src", `assets/${comp}.png`);
-      const referee = document.querySelector(".referee");
-      const hasilAkhir = document.createElement("p");
-      hasilAkhir.classList.add("results");
-      hasilAkhir.innerHTML = hasil;
-      referee.append(hasilAkhir);
-      draw();
-      logMatch();
-    }, 1000);
   }
-  secondGame();
-});
 
-const thirdInfinity = () => {
-  let ImgComp = document.querySelector(".com .gunting");
-  const itemComp = ["batu", "kertas", "gunting"];
-  let i = 0;
-  const waktuMulai = new Date().getTime();
-  setInterval(function () {
-    if (new Date().getTime() - waktuMulai > 1000) {
-      clearInterval;
-      return;
-    }
-    ImgComp.setAttribute("src", `assets/${itemComp[i++]}.png`);
-    if (i == itemComp.length) {
-      return (i = 0);
-    }
-  }, 100);
-};
-
-const thirdPick = document.querySelector(".item .gunting");
-thirdPick.addEventListener("click", () => {
-  function secondGame() {
-    const player = thirdPick.className;
-    console.log(`Item yang di pilih Player : ${player}`);
-    const comp = randomNum();
-    const hasil = result(player, comp);
-
-    thirdInfinity();
-
-    setTimeout(function () {
-      const imgComp = document.querySelector(".com .gunting");
-      imgComp.setAttribute("src", `assets/${comp}.png`);
-      const referee = document.querySelector(".referee");
-      const hasilAkhir = document.createElement("p");
-      hasilAkhir.classList.add("results");
-      hasilAkhir.innerHTML = hasil;
-      referee.append(hasilAkhir);
-      draw();
-      logMatch();
-    }, 1000);
-  }
-  secondGame();
-});
-
-function draw() {
-  const draw = document.querySelectorAll(".results");
-  let index = draw.length - 1;
-  if (draw[index].textContent === "DRAW") {
-    draw[index].classList.add("draw");
+  logMatch() {
+    const draw = document.querySelectorAll(".results");
+    let index = draw.length - 1;
+    console.log(`Hasil pertandingan : ${draw[index].textContent}`);
   }
 }
-draw();
 
-function logMatch() {
-  const draw = document.querySelectorAll(".results");
-  let index = draw.length - 1;
-  console.log(`Hasil pertandingan : ${draw[index].textContent}`);
+class FirstItem extends Games {
+  constructor(batu, gunting, kertas) {
+    super(batu, gunting, kertas);
+  }
+
+  infinity() {
+    let imgComp = document.querySelector(".com .batu");
+    const itemComp = ["batu", "kertas", "gunting"];
+    let index = 0;
+    const startTime = new Date().getTime();
+    setInterval(() => {
+      if (new Date().getTime() - startTime > 1000) {
+        clearInterval;
+        return;
+      }
+
+      imgComp.setAttribute("src", `assets/${itemComp[index++]}.png`);
+      if (index == itemComp.length) {
+        return (index = 0);
+      }
+    }, 100);
+  }
+
+  firstPick() {
+    this.batu.addEventListener("click", () => {
+      const firstGame = () => {
+        const player = this.batu.className;
+        const comp = randomNum();
+        const finalResult = result(player, comp);
+        console.log(`Item yang di pilih Player : ${player}`);
+        this.infinity();
+
+        setTimeout(() => {
+          const imgCompRandom = document.querySelector(".com .batu");
+          imgCompRandom.setAttribute("src", `assets/${comp}.png`);
+          const referee = document.querySelector(".referee");
+          const newResult = document.createElement("p");
+          newResult.classList.add("results");
+          newResult.innerHTML = finalResult;
+          referee.append(newResult);
+          super.draw();
+          super.logMatch();
+        }, 1000);
+      };
+      firstGame();
+    });
+  }
 }
-logMatch();
+const firstPick = new FirstItem();
+firstPick.firstPick();
