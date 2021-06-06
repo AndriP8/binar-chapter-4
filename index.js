@@ -15,7 +15,6 @@ function removeBg() {
 
 function randomNum() {
   const comp = Math.random();
-
   if (comp < 0.33) return "batu";
   if (comp >= 0.33 && comp < 0.66) return "kertas";
   return "gunting";
@@ -31,8 +30,8 @@ function result(player, comp) {
 class Games {
   constructor() {
     this.batu = document.querySelector(".item .batu");
-    this.gunting = document.querySelector(".item .gunting");
     this.kertas = document.querySelector(".item .kertas");
+    this.gunting = document.querySelector(".item .gunting");
   }
 
   draw() {
@@ -51,26 +50,8 @@ class Games {
 }
 
 class FirstItem extends Games {
-  constructor(batu, gunting, kertas) {
-    super(batu, gunting, kertas);
-  }
-
-  infinity() {
-    let imgComp = document.querySelector(".com .batu");
-    const itemComp = ["batu", "kertas", "gunting"];
-    let index = 0;
-    const startTime = new Date().getTime();
-    setInterval(() => {
-      if (new Date().getTime() - startTime > 1000) {
-        clearInterval;
-        return;
-      }
-
-      imgComp.setAttribute("src", `assets/${itemComp[index++]}.png`);
-      if (index == itemComp.length) {
-        return (index = 0);
-      }
-    }, 100);
+  constructor(batu) {
+    super(batu);
   }
 
   firstPick() {
@@ -80,23 +61,135 @@ class FirstItem extends Games {
         const comp = randomNum();
         const finalResult = result(player, comp);
         console.log(`Item yang di pilih Player : ${player}`);
-        this.infinity();
-
         setTimeout(() => {
-          const imgCompRandom = document.querySelector(".com .batu");
-          imgCompRandom.setAttribute("src", `assets/${comp}.png`);
+          // get random comp
+          const imgCompRandom = document.querySelectorAll(".img-comp");
+          let random = Math.floor(Math.random() * imgCompRandom.length);
+          let hasil = imgCompRandom[random];
+          if (hasil) {
+            hasil.setAttribute("src", `assets/${comp}.png`);
+            hasil.classList.add("bgClick");
+          }
+          this.batu.addEventListener("click", () => {
+            setTimeout(() => {
+              // remove comp background if click other item or click item again in player in delay 0,1 second
+              if (hasil.classList.contains("bgClick")) {
+                hasil.classList.remove("bgClick");
+              }
+            }, 100);
+          });
+          // get the winner
           const referee = document.querySelector(".referee");
           const newResult = document.createElement("p");
-          newResult.classList.add("results");
-          newResult.innerHTML = finalResult;
-          referee.append(newResult);
-          super.draw();
-          super.logMatch();
+          setTimeout(() => {
+            newResult.classList.add("results");
+            newResult.innerHTML = finalResult;
+            referee.append(newResult);
+            this.draw();
+            this.logMatch();
+          }, 200);
         }, 1000);
       };
       firstGame();
     });
   }
 }
+
 const firstPick = new FirstItem();
 firstPick.firstPick();
+
+class SecondItem extends Games {
+  constructor(kertas) {
+    super(kertas);
+  }
+  secondPick() {
+    this.kertas.addEventListener("click", () => {
+      const firstGame = () => {
+        const player = this.kertas.className;
+        const comp = randomNum();
+        const finalResult = result(player, comp);
+        console.log(`Item yang di pilih Player : ${player}`);
+        setTimeout(() => {
+          // get random comp
+          const imgCompRandom = document.querySelectorAll(".img-comp");
+          let random = Math.floor(Math.random() * imgCompRandom.length);
+          let hasil = imgCompRandom[random];
+          if (hasil) {
+            hasil.setAttribute("src", `assets/${comp}.png`);
+            hasil.classList.add("bgClick");
+          }
+          this.kertas.addEventListener("click", () => {
+            setTimeout(() => {
+              // remove comp background if click other item or click item again in player in delay 0,1 second
+              if (hasil.classList.contains("bgClick")) {
+                hasil.classList.remove("bgClick");
+              }
+            }, 100);
+          });
+
+          const referee = document.querySelector(".referee");
+          const newResult = document.createElement("p");
+          setTimeout(() => {
+            newResult.classList.add("results");
+            newResult.innerHTML = finalResult;
+            referee.append(newResult);
+            this.draw();
+            this.logMatch();
+          }, 200);
+        }, 1000);
+      };
+      firstGame();
+    });
+  }
+}
+
+const secondPick = new SecondItem();
+secondPick.secondPick();
+
+class ThirdItem extends Games {
+  constructor(gunting) {
+    super(gunting);
+  }
+  thirdPick() {
+    this.gunting.addEventListener("click", () => {
+      const firstGame = () => {
+        const player = this.gunting.className;
+        const comp = randomNum();
+        const finalResult = result(player, comp);
+        console.log(`Item yang di pilih Player : ${player}`);
+        setTimeout(() => {
+          // get random comp
+          const imgCompRandom = document.querySelectorAll(".img-comp");
+          let random = Math.floor(Math.random() * imgCompRandom.length);
+          let hasil = imgCompRandom[random];
+          if (hasil) {
+            hasil.setAttribute("src", `assets/${comp}.png`);
+            hasil.classList.add("bgClick");
+          }
+          this.gunting.addEventListener("click", () => {
+            setTimeout(() => {
+              // remove comp background if click other item or click item again in player in delay 0,1 second
+              if (hasil.classList.contains("bgClick")) {
+                hasil.classList.remove("bgClick");
+              }
+            }, 100);
+          });
+          // get the winner
+          const referee = document.querySelector(".referee");
+          const newResult = document.createElement("p");
+          setTimeout(() => {
+            newResult.classList.add("results");
+            newResult.innerHTML = finalResult;
+            referee.append(newResult);
+            this.draw();
+            this.logMatch();
+          }, 200);
+        }, 1000);
+      };
+      firstGame();
+    });
+  }
+}
+
+const thirdPick = new ThirdItem();
+thirdPick.thirdPick();
