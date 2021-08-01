@@ -33,163 +33,49 @@ class Games {
     this.kertas = document.querySelector(".item .kertas");
     this.gunting = document.querySelector(".item .gunting");
   }
+  firstOption() {
+    this.batu.addEventListener("click", () => {
+      const player = this.batu.className;
+      const comp = randomNum();
+      const finalResult = result(player, comp);
+      console.log("player : ", player);
+      console.log("comp : ", comp);
+      console.log(finalResult);
 
-  draw() {
-    const draw = document.querySelectorAll(".results");
-    let index = draw.length - 1;
-    if (draw[index].textContent === "DRAW") {
-      draw[index].classList.add("draw");
-    }
-  }
-
-  logMatch() {
-    const draw = document.querySelectorAll(".results");
-    let index = draw.length - 1;
-    console.log(`Hasil pertandingan : ${draw[index].textContent}`);
+      setTimeout(() => {
+        const compRandom = document.querySelectorAll(".img-comp");
+        let random = Math.floor(Math.random() * compRandom.length);
+        let hasil = compRandom[random];
+        console.log(hasil);
+        if (hasil) {
+          hasil.classList.add("bgClick");
+        }
+        this.batu.addEventListener("click", () => {
+          setTimeout(() => {
+            if (hasil.classList.contains("bgClick")) {
+              hasil.classList.remove("bgClick");
+            }
+          }, 100);
+        });
+        const result = document.querySelector(".result");
+        const newFinalResult = document.createElement("p");
+        setTimeout(() => {
+          newFinalResult.classList.add("final-result");
+          newFinalResult.innerHTML = finalResult;
+          result.append(newFinalResult);
+        }, 200);
+      }, 1000);
+    });
   }
 }
-
-class FirstItem extends Games {
+class Batu extends Games {
   constructor(batu) {
     super(batu);
   }
-
-  firstPick() {
-    this.batu.addEventListener("click", () => {
-      const firstGame = () => {
-        const player = this.batu.className;
-        const comp = randomNum();
-        const finalResult = result(player, comp);
-        console.log(`Item yang di pilih Player : ${player}`);
-        setTimeout(() => {
-          // get random comp
-          const imgCompRandom = document.querySelectorAll(".img-comp");
-          let random = Math.floor(Math.random() * imgCompRandom.length);
-          let hasil = imgCompRandom[random];
-          if (hasil) {
-            hasil.setAttribute("src", `assets/${comp}.png`);
-            hasil.classList.add("bgClick");
-          }
-          this.batu.addEventListener("click", () => {
-            setTimeout(() => {
-              // remove comp background if click other item or click item again in player in delay 0,1 second
-              if (hasil.classList.contains("bgClick")) {
-                hasil.classList.remove("bgClick");
-              }
-            }, 100);
-          });
-          // get the winner
-          const referee = document.querySelector(".referee");
-          const newResult = document.createElement("p");
-          setTimeout(() => {
-            newResult.classList.add("results");
-            newResult.innerHTML = finalResult;
-            referee.append(newResult);
-            this.draw();
-            this.logMatch();
-          }, 200);
-        }, 1000);
-      };
-      firstGame();
-    });
+  firstOption() {
+    super.firstOption();
   }
 }
 
-const firstPick = new FirstItem();
-firstPick.firstPick();
-
-class SecondItem extends Games {
-  constructor(kertas) {
-    super(kertas);
-  }
-  secondPick() {
-    this.kertas.addEventListener("click", () => {
-      const firstGame = () => {
-        const player = this.kertas.className;
-        const comp = randomNum();
-        const finalResult = result(player, comp);
-        console.log(`Item yang di pilih Player : ${player}`);
-        setTimeout(() => {
-          // get random comp
-          const imgCompRandom = document.querySelectorAll(".img-comp");
-          let random = Math.floor(Math.random() * imgCompRandom.length);
-          let hasil = imgCompRandom[random];
-          if (hasil) {
-            hasil.setAttribute("src", `assets/${comp}.png`);
-            hasil.classList.add("bgClick");
-          }
-          this.kertas.addEventListener("click", () => {
-            setTimeout(() => {
-              // remove comp background if click other item or click item again in player in delay 0,1 second
-              if (hasil.classList.contains("bgClick")) {
-                hasil.classList.remove("bgClick");
-              }
-            }, 100);
-          });
-
-          const referee = document.querySelector(".referee");
-          const newResult = document.createElement("p");
-          setTimeout(() => {
-            newResult.classList.add("results");
-            newResult.innerHTML = finalResult;
-            referee.append(newResult);
-            this.draw();
-            this.logMatch();
-          }, 200);
-        }, 1000);
-      };
-      firstGame();
-    });
-  }
-}
-
-const secondPick = new SecondItem();
-secondPick.secondPick();
-
-class ThirdItem extends Games {
-  constructor(gunting) {
-    super(gunting);
-  }
-  thirdPick() {
-    this.gunting.addEventListener("click", () => {
-      const firstGame = () => {
-        const player = this.gunting.className;
-        const comp = randomNum();
-        const finalResult = result(player, comp);
-        console.log(`Item yang di pilih Player : ${player}`);
-        setTimeout(() => {
-          // get random comp
-          const imgCompRandom = document.querySelectorAll(".img-comp");
-          let random = Math.floor(Math.random() * imgCompRandom.length);
-          let hasil = imgCompRandom[random];
-          if (hasil) {
-            hasil.setAttribute("src", `assets/${comp}.png`);
-            hasil.classList.add("bgClick");
-          }
-          this.gunting.addEventListener("click", () => {
-            setTimeout(() => {
-              // remove comp background if click other item or click item again in player in delay 0,1 second
-              if (hasil.classList.contains("bgClick")) {
-                hasil.classList.remove("bgClick");
-              }
-            }, 100);
-          });
-          // get the winner
-          const referee = document.querySelector(".referee");
-          const newResult = document.createElement("p");
-          setTimeout(() => {
-            newResult.classList.add("results");
-            newResult.innerHTML = finalResult;
-            referee.append(newResult);
-            this.draw();
-            this.logMatch();
-          }, 200);
-        }, 1000);
-      };
-      firstGame();
-    });
-  }
-}
-
-const thirdPick = new ThirdItem();
-thirdPick.thirdPick();
+const firstGame = new Batu();
+firstGame.firstOption();
