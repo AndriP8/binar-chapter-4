@@ -70,14 +70,14 @@ footer .refresh {
   justify-content: center;
 }
 
-.referee .new-result {
+.referee .result {
   color: #bd0000;
   font-size: 88px;
   position: absolute;
   top: 366px;
 }
 
-.referee .final-results {
+.referee .results {
   background-color: #4c9654;
   border-radius: 10px;
 }
@@ -86,7 +86,7 @@ footer .refresh {
   background-color: #035b0c;
 }
 
-.referee .final-results,
+.referee .results,
 .referee .draw {
   color: #fff;
   font-size: 38px;
@@ -109,8 +109,8 @@ footer .refresh {
 }
 
 @media screen and (max-width: 992px) {
-  .referee .new-result,
-  .referee .final-results,
+  .referee .result,
+  .referee .results,
   .referee .draw {
     transform: rotate(0deg);
     top: 650px;
