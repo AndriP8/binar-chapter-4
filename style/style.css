@@ -65,29 +65,29 @@ footer .refresh {
   transition: 0.5s ease-in-out;
 }
 
-.referee {
+.result {
   display: flex;
   justify-content: center;
 }
 
-.referee .result {
+.result .new-result {
   color: #bd0000;
   font-size: 88px;
   position: absolute;
   top: 366px;
 }
 
-.referee .results {
+.result .final-result {
   background-color: #4c9654;
   border-radius: 10px;
 }
 
-.referee .draw {
+.result .draw {
   background-color: #035b0c;
 }
 
-.referee .results,
-.referee .draw {
+.result .final-result,
+.result .draw {
   color: #fff;
   font-size: 38px;
   width: 271.11px;
@@ -109,9 +109,9 @@ footer .refresh {
 }
 
 @media screen and (max-width: 992px) {
-  .referee .result,
-  .referee .results,
-  .referee .draw {
+  .result .new-result,
+  .result .final-result,
+  .result .draw {
     transform: rotate(0deg);
     top: 650px;
   }
